@@ -47,3 +47,6 @@ You can add the following options to the initialisation object to customize the 
 * **showAction**: boolean, whether to show the action button or not (default: true)
 * **text**: string, the text content of the Sneakbar (default: Kept you waiting huh?)
 * **textColor**: string, the hexadecimal color of the Sneakbar text (default: white)
+* **theme**: string, the theme to apply (default: material-design)
+    * material-design
+    * twitter
