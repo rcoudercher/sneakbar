@@ -1,0 +1,75 @@
+.sneakbar {
+    background: #262626;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    border-radius: 2px;
+    padding: 10px 20px;
+    width: 300px;
+    z-index: 9999;
+    font-size: 15px;
+
+    @keyframes top-down {
+        from { top: -100px; }
+        to { top: 30px; }
+    }
+
+    @keyframes bottom-up {
+        from { bottom: -100px; }
+        to { bottom: 30px; }
+    }
+
+    &.sneakbar-top-start {
+        animation: top-down .2s ease-out;
+        top: 30px;
+        left: 30px;
+    }
+
+    &.sneakbar-top-center {
+        animation: top-down .2s ease-out;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &.sneakbar-top-end {
+        animation: top-down .2s ease-out;
+        top: 30px;
+        right: 30px;
+    }
+
+    &.sneakbar-bottom-start {
+        animation: bottom-up .2s ease-out;
+        bottom: 30px;
+        left: 30px;
+    }
+
+    &.sneakbar-bottom-center {
+        animation: bottom-up .2s ease-out;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &.sneakbar-bottom-end {
+        animation: bottom-up .2s ease-out;
+        bottom: 30px;
+        right: 30px;
+    }
+
+    p {
+        color: white;
+        font-family: sans-serif;
+    }
+
+    button {
+        background: none;
+        border: none;
+        color: #22c55e;
+        text-transform: uppercase;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
