@@ -1,24 +1,26 @@
 export default class Sneakbar {
     actionText: string;
-    actionTextColor: string;
-    backgroundColor: string;
+    actionTextColor: string | null;
+    backgroundColor: string | null;
     customClasses: Array<string>;
     duration: number;
     position: string;
     showAction: boolean;
     text: string;
     textColor: string;
+    theme: string;
 
     constructor({
         actionText = "Dismiss",
-        actionTextColor = "#22c55e",
-        backgroundColor = "#262626",
+        actionTextColor = null,
+        backgroundColor = null,
         customClasses = [],
         duration = 5000,
         position = "bottom-start",
         showAction = true,
-        text = "Hello world !",
+        text = "Kept you waiting huh?",
         textColor = "#fff",
+        theme = "material-design",
     }) {
         this.actionText = actionText;
         this.actionTextColor = actionTextColor;
@@ -29,12 +31,39 @@ export default class Sneakbar {
         this.showAction = showAction;
         this.text = text;
         this.textColor = textColor;
+        this.theme = theme;
     }
 
     show() {
         // Create the sneakbar wrapper
         let sneakbar = document.createElement("div");
         sneakbar.classList.add("sneakbar");
+
+        // add theme
+        const themes = [
+            "material-design",
+            "twitter",
+        ];
+
+        // Make sure 'theme' is one the themes allowed
+        if (!themes.includes(this.theme)) throw new Error("Wrong theme");
+
+        sneakbar.classList.add(`sneakbar-${this.theme}`);
+
+        // Theme overrides
+
+        // Regex to validate hexadecimal color
+        const hexColorRegex = new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", "i");
+
+        // Make sure 'backgroundColor' is not null or undefined
+        if (this.backgroundColor) {
+            // Make sur 'backgroundColor' has right format
+            if (hexColorRegex.test(this.backgroundColor)) {
+                sneakbar.style.backgroundColor = this.backgroundColor;
+            } else {
+                throw new Error("Wrong backgroundColor format. Must be a valid hexadecimal color.");
+            }
+        }
 
         // Make sure 'position' is not null or undefined
         if (this.position == null) throw new Error("Null or undefined position");
@@ -53,20 +82,6 @@ export default class Sneakbar {
 
         // Add position
         sneakbar.classList.add(`sneakbar-${this.position}`);
-
-        // Make sure 'backgroundColor' is not null or undefined
-        if (this.backgroundColor == null) throw new Error("Null or undefined backgroundColor");
-
-        // Regex to validate hexadecimal color
-        const hexColorRegex = new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", "i");
-
-        // Make sur 'backgroundColor' has right format
-        if (!hexColorRegex.test(this.backgroundColor)) {
-            throw new Error("Wrong backgroundColor format. Must be a valid hexadecimal color.");
-        }
-        
-        // Add backgroundColor
-        sneakbar.style.backgroundColor = this.backgroundColor;
 
         // customClasses
 
@@ -117,12 +132,15 @@ export default class Sneakbar {
 
             btn.innerText = this.actionText;
 
-            // Make sur 'actionTextColor' has right format
-            if (!hexColorRegex.test(this.actionTextColor)) {
-                throw new Error("Wrong actionTextColor format. Must be a valid hexadecimal color.");
+            // Add custom color if any
+            if (this.actionTextColor) {
+                // Make sur 'actionTextColor' has right format
+                if (hexColorRegex.test(this.actionTextColor)) {
+                    btn.style.color = this.actionTextColor;
+                } else {
+                    throw new Error("Wrong actionTextColor format. Must be a valid hexadecimal color.");
+                }
             }
-
-            btn.style.color = this.actionTextColor;
 
             // Remove the sneakbar when clicking on the action button
             btn.addEventListener("click", () => {
